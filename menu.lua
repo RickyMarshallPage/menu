@@ -37,9 +37,6 @@ do
 	end
 
 	--Creating fake input objects with fake variables
-	local CAS = {
-		Actions = {}
-	}
 	local FakeMouse = {
 		Hit = CFrame.new(),
 		KeyUp = fakeEvent(),
@@ -56,6 +53,7 @@ do
 		InputEnded = fakeEvent()
 	}
 	local CAS = {
+		Actions = {},
 		BindAction = function(self, name, fun, touch, ...)
 			CAS.Actions[name] = fun and {
 				Name = name,
