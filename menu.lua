@@ -52,20 +52,7 @@ do
 		InputBegan = fakeEvent(),
 		InputEnded = fakeEvent()
 	}
-	local CAS = {
-		Actions = {},
-		BindAction = function(self, name, fun, touch, ...)
-			CAS.Actions[name] = fun and {
-				Name = name,
-				Function = fun,
-				Keys = {
-					...
-				}
-			} or nil
-		end
-	}
 	--Merged 2 functions into one by checking amount of arguments
-	CAS.UnbindAction = CAS.BindAction
 
 	--This function will trigger the events that have been :Connect()'ed
 	local function TriggerEvent(self, ev, ...)
@@ -92,13 +79,6 @@ do
 			end
 			if io.UserInputType == Enum.UserInputType.MouseButton2 then
 				return FakeMouse:TriggerEvent(b and "Button2Down" or "Button2Up")
-			end
-			for _, t in pairs(CAS.Actions) do
-				for _, k in pairs(t.Keys) do
-					if k == io.KeyCode then
-						t.Function(t.Name, io.UserInputState, io)
-					end
-				end
 			end
 			FakeMouse:TriggerEvent(b and "KeyDown" or "KeyUp", io.KeyCode.Name:lower())
 			UIS:TriggerEvent(b and "InputBegan" or "InputEnded", io, false)
@@ -170,7 +150,6 @@ do
 			}, Player)
 		}, "Players"),
 		UserInputService = FakeService(UIS, "UserInputService"),
-		ContextActionService = FakeService(CAS, "ContextActionService"),
 		RunService = FakeService({
 			_btrs = {},
 			RenderStepped = RealGame:GetService("RunService").Heartbeat,
